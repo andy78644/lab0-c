@@ -26,9 +26,8 @@ void q_free(queue_t *q)
     /* Free queue structure */
     if (!q)
         return;
-    list_ele_t *tmp;
     while (q->head) {
-        tmp = q->head;
+        list_ele_t *tmp = q->head;
         q->head = q->head->next;
         free(tmp->value);
         free(tmp);
@@ -50,8 +49,10 @@ bool q_insert_head(queue_t *q, char *s)
     /* TODO: What should you do if the q is NULL? */
     if (!(newh = malloc(sizeof(list_ele_t))))
         return false;
-    if (!(newh->value = malloc(slen)))
+    if (!(newh->value = malloc(slen))) {
+        free(newh);
         return false;
+    }
     /* Don't forget to allocate space for the string and copy it */
     /* What if either call to malloc returns NULL? */
     memcpy(newh->value, s, slen);

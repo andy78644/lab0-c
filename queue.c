@@ -91,10 +91,12 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
     // if (!q)
     //    return true;
     list_ele_t *tmp = q->head;
-    if (q->head->next)
-        q->head = q->head->next;
-    free(tmp->value);
-    free(tmp);
+    q->head = q->head->next;
+    if (tmp) {
+        memcpy(sp, tmp->value, bufsize);
+        free(tmp->value);
+        free(tmp);
+    }
     return true;
 }
 

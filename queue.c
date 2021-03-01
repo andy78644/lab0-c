@@ -49,6 +49,9 @@ bool q_insert_head(queue_t *q, char *s)
     list_ele_t *newh;
     size_t slen = strlen(s) + 1;
     /* TODO: What should you do if the q is NULL? */
+    if (!q) {
+        return false;
+    }
     if (!(newh = malloc(sizeof(list_ele_t))))
         return false;
     if (!(newh->value = malloc(slen))) {
@@ -80,6 +83,8 @@ bool q_insert_tail(queue_t *q, char *s)
     /* TODO: Remove the above comment when you are about to implement. */
     list_ele_t *newh;
     size_t slen = strlen(s) + 1;
+    if (!q)
+        return false;
     if (!(newh = malloc(sizeof(list_ele_t))))
         return false;
     if (!(newh->value = malloc(slen))) {
@@ -108,6 +113,8 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
     /* TODO: Remove the above comment when you are about to implement. */
     // if (!q)
     //    return true;
+    if (!q)
+        return false;
     list_ele_t *tmp = q->head;
     if (!tmp)
         return false;
@@ -125,6 +132,8 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
  */
 int q_size(queue_t *q)
 {
+    if (!q)
+        return 0;
     /* TODO: You need to write the code for this function */
     return q->size;
     /* Remember: It should operate in O(1) time */
@@ -143,6 +152,8 @@ void q_reverse(queue_t *q)
 {
     /* TODO: You need to write the code for this function */
     /* TODO: Remove the above comment when you are about to implement. */
+    if (!q)
+        return;
     list_ele_t *cur;
     list_ele_t *tmp = NULL;
     if (!(q->head))
@@ -168,6 +179,10 @@ void q_sort(queue_t *q)
 {
     /* TODO: You need to write the code for this function */
     /* TODO: Remove the above comment when you are about to implement. */
+    if (!q)
+        return;
+    if (!(q->head) || !(q->head->next))
+        return;
     q->head = mergesort(q->head);
     list_ele_t *tmp = q->head;
     while (tmp->next) {
@@ -207,7 +222,6 @@ static list_ele_t *merge(list_ele_t *left, list_ele_t *right)
     } else {
         tmp->next = left;
     }
-    left = q;
     return q;
 }
 

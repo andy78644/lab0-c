@@ -113,13 +113,16 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
     /* TODO: Remove the above comment when you are about to implement. */
     // if (!q)
     //    return true;
-    if (!q)
+    if (!q || !(q->head))
         return false;
     list_ele_t *tmp = q->head;
-    if (!tmp)
-        return false;
     q->head = tmp->next;
-    memcpy(sp, tmp->value, bufsize);
+    int len = strlen(tmp->value);
+    if (sp) {
+        memset(sp, 0, bufsize);
+        (len < bufsize) ? memcpy(sp, tmp->value, bufsize)
+                        : memcpy(sp, tmp->value, len - 1);
+    }
     free(tmp->value);
     free(tmp);
     q->size--;

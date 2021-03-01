@@ -82,9 +82,9 @@ bool q_insert_tail(queue_t *q, char *s)
     /* Remember: It should operate in O(1) time */
     /* TODO: Remove the above comment when you are about to implement. */
     list_ele_t *newh;
-    size_t slen = strlen(s) + 1;
-    if (!q)
+    if (!q || !s)
         return false;
+    size_t slen = strlen(s) + 1;
     if (!(newh = malloc(sizeof(list_ele_t))))
         return false;
     if (!(newh->value = malloc(slen))) {
@@ -120,8 +120,13 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
     int len = strlen(tmp->value);
     if (sp) {
         memset(sp, 0, bufsize);
-        (len < bufsize) ? memcpy(sp, tmp->value, bufsize)
-                        : memcpy(sp, tmp->value, len - 1);
+        if (len < bufsize) {
+            memcpy(sp, tmp->value, len);
+            // sp[bufsize] = '\0';
+        } else {
+            memcpy(sp, tmp->value, bufsize - 1);
+            sp[bufsize - 1] = '\0';
+        }
     }
     free(tmp->value);
     free(tmp);

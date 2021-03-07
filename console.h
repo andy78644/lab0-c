@@ -8,7 +8,7 @@
 /* Implementation of simple command-line interface */
 
 /* Simulation flag of console option */
-extern bool simulation;
+extern int simulation;
 
 /* Each command defined in terms of a function */
 typedef bool (*cmd_function)(int argc, char *argv[]);
@@ -32,6 +32,7 @@ typedef struct PELE param_ele, *param_ptr;
 struct PELE {
     char *name;
     int *valp;
+    // void *valp;
     char *documentation;
     /* Function that gets called whenever parameter changes */
     setter_function setter;
